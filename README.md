@@ -1,17 +1,116 @@
-# FNAD World (CSV Reader Project)
+# 🎮 FNAD World 
 
-## Overview
+A 2D top-down RPG-style game built in Python using Pygame, featuring dynamic world generation, user authentication, and tile-based exploration.
 
-This project was created for a **CSE 120 final project**, but ended up being an immense undertaking. I had to learn advanced skills in **file reading with big data**, without the help of SQL. The main skill I used was the **enumeration of each object in multi-row/column files**.
+## 🌟 Features
 
-## Key Skills & Applications
+### 🎲 **Dynamic World Generation**
+- **Multi-biome system** with plains, snow (tundra), and mountain regions
+- **CSV-based tile mapping** for flexible world design
+- **Procedural tile placement** with randomized terrain variation
+- **Modular world sections** (3x3 grid system: topLeft, topMiddle, topRight, etc.)
 
-The skill of object enumeration in structured text files is applicable in many **computer science** and **data analytics** fields. Through this project, I developed a strong understanding of how to manage big data manually, which can be adapted for various use cases:
+### 🎭 **Player System**
+- **Animated sprite movement** with directional animations (up, down, left, right)
+- **Smooth collision detection** with terrain and buildings
+- **Interactive gameplay** with buildings and NPCs
+- **Battle system integration** for RPG encounters
 
-- Managing **spritemaps** in game development (as used in this project)
-- Finding **user information** based on keywords
-- Parsing and analyzing **error logs**
-- Locating **specific items in large lists**
-- General **pattern recognition** in structured datasets
+### 🏠 **Interactive Environment**
+- **Building interaction system** - press 'F' to enter buildings
+- **Screen switching** between overworld and battle modes
+- **Collision-based movement** with realistic physics
+- **Layered sprite rendering** for proper visual depth
 
-This project highlights the foundational power of simple data parsing tools, even in the absence of traditional database systems.
+### 🔐 **User Authentication**
+- **Custom login system** with username/password storage
+- **Guest mode** for temporary play sessions
+- **File-based user data persistence**
+- **Modern UI** using CustomTkinter
+
+### 🎵 **Audio Integration**
+- **Background music** system with looping audio
+- **Music management** for different game states
+- **Sound effect framework** (expandable)
+
+## 🛠️ Technical Implementation
+
+### **CSV-Driven World Design**
+The game uses a sophisticated CSV parsing system to generate worlds:
+- **Tile mapping** from CSV files to sprite coordinates
+- **Symbol-based terrain** (B=borders, R=roads, 1=grass, etc.)
+- **Multi-zone rendering** supporting different biomes per region
+- **Efficient sprite sheet management** with caching
+
+### **Object-Oriented Architecture**
+- **Game class** managing main game loop and state
+- **Player class** handling movement, animation, and interactions  
+- **Block/Buildings classes** for environment rendering
+- **Screen management** for different game modes
+
+### **Advanced File Processing**
+- **Multi-row CSV enumeration** for large tile data
+- **Sprite sheet parsing** and image extraction
+- **Configuration file management** for game settings
+- **Error handling** for file operations
+
+## 🚀 Getting Started
+
+### Prerequisites
+```bash
+pip install pygame customtkinter
+```
+
+### Running the Game
+```bash
+cd src
+python main.py
+```
+
+### Game Controls
+- **Arrow Keys**: Move player character
+- **F Key**: Interact with buildings/NPCs  
+- **ESC**: Exit interactions/menus
+
+## 📁 Project Structure
+
+```
+src/
+├── main.py                    # Entry point
+├── gameLogic.py              # Core game mechanics  
+├── introScreen.py            # Login/authentication UI
+├── dependancyStuff/
+│   ├── config.py             # Game constants
+│   ├── multipleScreens.py    # Screen management
+│   ├── sprites/              # Character & object sprites
+│   ├── worldGenStuff/        # World generation system
+│   ├── passwordStuff/        # Authentication system
+│   └── sound/                # Audio management
+└── img/                      # Game assets & sprites
+```
+
+## 🎯 Educational Value
+
+Originally created as a **CSE 120 final project**, this game demonstrates:
+
+- **File I/O operations** with large datasets
+- **CSV parsing and data enumeration** techniques  
+- **Game loop architecture** and state management
+- **Sprite-based graphics programming**
+- **Object-oriented design patterns**
+- **User interface development**
+
+The project showcases practical applications of data processing in game development, proving that complex systems can be built using fundamental programming concepts without relying on external databases or advanced frameworks.
+
+## 🔮 Future Enhancements
+
+- **Battle system completion** with combat mechanics
+- **NPC dialogue system** and quest framework  
+- **Inventory and item management**
+- **Save game functionality** with progress persistence
+- **Sound effects integration** and audio improvements
+- **Multiplayer support** for cooperative play
+
+---
+
+*Built with ❤️ using Python & Pygame*
