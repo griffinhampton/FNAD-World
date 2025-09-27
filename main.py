@@ -8,7 +8,7 @@ if __name__ == '__main__':
     print(__name__)
     root.mainloop()
     g = Game()
-    g.new()
+    g.new(use_loading_screen=True)
     while g.running:
         g.main()
         g.game_over()

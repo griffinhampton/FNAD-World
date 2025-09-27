@@ -1,11 +1,17 @@
 import csv
+import os
 
 from src.dependancyStuff.multipleScreens import Screen
-from sprites import Player
+from src.dependancyStuff.sprites.playerSprites import Player
 from src.dependancyStuff.worldGenStuff.tileMaps import *
 hearts = 5
 pygame.mixer.init()
-pygame.mixer.music.load(r"C:\Users\ghamp\PycharmProjects\PythonProject\src\dependancyStuff\passwordStuff\musicfolder\My-Song-41.ogg")
+try:
+    music_path = os.path.join(os.path.dirname(__file__), 'dependancyStuff', 'passwordStuff', 'musicfolder', 'My-Song-41.ogg')
+    if os.path.exists(music_path):
+        pygame.mixer.music.load(music_path)
+except:
+    pass  # Continue without music if file not found
 
 
 
@@ -13,7 +19,7 @@ class Game:
     def __init__(self):
         pygame.mixer.music.play(-1)
         pygame.init()
-        pygame.display.set_caption("My Game")
+        pygame.display.set_caption("FNAD World")
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.clock = pygame.time.Clock()
         self.running = True
@@ -24,14 +30,31 @@ class Game:
         self.mainScreen = Screen("Game Time!", SCREEN_WIDTH, SCREEN_HEIGHT)
 
 
-    def createMainTilemap(self, file_path, currentTile, tiles, width, height, scale):
+    def createMainTilemap(self, file_path, currentTile, tiles, width, height, scale, progress_callback=None):
         print(file_path)
         skippedLine = 0
         tiles = []
+        total_rows = 0
+        current_row = 0
+        
+        # Count total rows for progress
+        if progress_callback:
+            with open(file_path, 'r') as csvfile:
+                total_rows = sum(1 for _ in csv.reader(csvfile))
+        
         with open(file_path, 'r') as csvfile:
             csvreader = csv.reader(csvfile, delimiter=',')
             #maybe assign a new dictionary per large tile map square?
             for i, row in enumerate(csvreader):
+                current_row = i
+                
+                # Update progress every 10 rows
+                if progress_callback and total_rows > 0 and i % 10 == 0:
+                    progress = 0.2 + (current_row / total_rows) * 0.7
+                    progress_callback.update_progress(progress, f"Creating tiles... (row {i}/{total_rows})")
+                    progress_callback.render()
+                    progress_callback.handle_events()
+                
                 for j, column in enumerate(row):
                     if column.__contains__("top"):
                         currentTile = "top"
@@ -61,14 +84,34 @@ class Game:
                             Buildings(self, column, i-(skippedLine+96), j)
 
 
-    def new(self):
+    def new(self, use_loading_screen=False):
         pygame.display.init()
         self.playing = True
         self.all_sprites = pygame.sprite.LayeredUpdates()
         self.player = pygame.sprite.GroupSingle()
         self.blocks = pygame.sprite.LayeredUpdates()
         self.buildings = pygame.sprite.LayeredUpdates()
-        self.createMainTilemap(r'C:\Users\ghamp\PycharmProjects\PythonProject\src\dependancyStuff\worldGenStuff\world1.csv', 0,10,TILESIZE,TILESIZE,1)
+        
+        # Use relative path for world file
+        world_file = os.path.join(os.path.dirname(__file__), 'dependancyStuff', 'worldGenStuff', 'world1.csv')
+        
+        if use_loading_screen:
+            try:
+                from src.dependancyStuff.loadingScreen import LoadingScreenContext
+                with LoadingScreenContext() as loader:
+                    loader.update_progress(0.1, "Loading world...")
+                    self.createMainTilemap(world_file, 0, 10, TILESIZE, TILESIZE, 1, loader)
+                    loader.update_progress(1.0, "Complete!")
+                    
+                # Restore proper game window after loading screen
+                pygame.display.set_caption("FNAD World")
+                self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+                    
+            except ImportError:
+                print("Loading screen not available, loading normally...")
+                self.createMainTilemap(world_file, 0, 10, TILESIZE, TILESIZE, 1)
+        else:
+            self.createMainTilemap(world_file, 0, 10, TILESIZE, TILESIZE, 1)
 
     def events(self):
         for event in pygame.event.get():
