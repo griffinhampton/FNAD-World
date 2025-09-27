@@ -33,6 +33,13 @@ A 2D top-down RPG-style game built in Python using Pygame, featuring dynamic wor
 - **Music management** for different game states
 - **Sound effect framework** (expandable)
 
+### 🎨 **Enhanced Loading Experience**
+- **Animated loading screen** with progress tracking
+- **Player walking animation** during world loading
+- **Progress bar visualization** with loading status messages
+- **Smooth frame-by-frame sprite animation** (0.25-second intervals)
+- **Professional loading interface** preventing black screen delays
+
 ## 🛠️ Technical Implementation
 
 ### **CSV-Driven World Design**
@@ -53,6 +60,13 @@ The game uses a sophisticated CSV parsing system to generate worlds:
 - **Sprite sheet parsing** and image extraction
 - **Configuration file management** for game settings
 - **Error handling** for file operations
+
+### **Loading Screen System**
+- **Low-memory loading interface** with minimal resource usage
+- **Real-time progress tracking** during world generation
+- **Sprite animation engine** using individual frame extraction
+- **Context manager pattern** for clean loading screen lifecycle
+- **Fallback rendering** with graceful error handling
 
 ## 🚀 Getting Started
 
@@ -81,6 +95,7 @@ src/
 ├── introScreen.py            # Login/authentication UI
 ├── dependancyStuff/
 │   ├── config.py             # Game constants
+│   ├── loadingScreen.py      # Animated loading interface
 │   ├── multipleScreens.py    # Screen management
 │   ├── sprites/              # Character & object sprites
 │   ├── worldGenStuff/        # World generation system
@@ -97,6 +112,9 @@ Originally created as a **CSE 120 final project**, this game demonstrates:
 - **CSV parsing and data enumeration** techniques  
 - **Game loop architecture** and state management
 - **Sprite-based graphics programming**
+- **Animation systems** with frame-based sprite cycling
+- **Loading screen development** with progress tracking
+- **Context managers** for resource management
 - **Object-oriented design patterns**
 - **User interface development**
 
